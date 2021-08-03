@@ -45,6 +45,8 @@ def run(
     # Initialize the process group.
     world_size = num_proc * num_shards
     rank = shard_id * num_proc + local_rank
+    print("world size: ", world_size)
+    print("rank: ", rank)
 
     try:
         torch.distributed.init_process_group(

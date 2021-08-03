@@ -297,7 +297,7 @@ def launch_job(cfg, init_method, func, daemon=False):
             mpu.run,
             nprocs=cfg.NUM_GPUS,
             args=(
-                cfg.NUM_GPUS,
+                0,
                 func,
                 init_method,
                 cfg.SHARD_ID,

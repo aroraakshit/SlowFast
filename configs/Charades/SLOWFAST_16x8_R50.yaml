@@ -1,11 +1,11 @@
 TRAIN:
   ENABLE: True
   DATASET: charades
-  BATCH_SIZE: 16
+  BATCH_SIZE: 8
   EVAL_PERIOD: 6
   CHECKPOINT_PERIOD: 6
   AUTO_RESUME: True
-  CHECKPOINT_FILE_PATH: SLOWFAST_8x8_R50.pkl # please download from the model zoo.
+  CHECKPOINT_FILE_PATH: /nvidia/datasets/SLOWFAST_8x8_R50.pkl # please download from the model zoo.
   CHECKPOINT_TYPE: caffe2
 DATA:
   NUM_FRAMES: 64
@@ -41,7 +41,7 @@ BN:
   USE_PRECISE_STATS: True
   NUM_BATCHES_PRECISE: 200
   NORM_TYPE: sync_batchnorm
-  NUM_SYNC_DEVICES: 4
+  NUM_SYNC_DEVICES: 1
 SOLVER:
   BASE_LR: 0.0375
   LR_POLICY: steps_with_relative_lrs
@@ -66,10 +66,22 @@ TEST:
   NUM_ENSEMBLE_VIEWS: 10
   NUM_SPATIAL_CROPS: 3
 DATA_LOADER:
-  NUM_WORKERS: 8
+  NUM_WORKERS: 1
   PIN_MEMORY: True
-NUM_GPUS: 8
+NUM_GPUS: 1
 NUM_SHARDS: 1
 RNG_SEED: 0
-OUTPUT_DIR: .
+OUTPUT_DIR: /nvidia/tb_logdir
 LOG_MODEL_INFO: False
+# TENSORBOARD:
+#   ENABLE: True
+#   LOG_DIR: ""
+#   CLASS_NAMES_PATH: ""
+  # CONFUSION_MATRIX:
+  #   ENABLE: True
+  #   SUBSET_PATH: /nvidia/datasets/charades/Charades_v1_classes.txt
+           
+  # HISTOGRAM:
+  #   ENABLE: True
+  #   TOP_K: 10   # Top-k most frequently predicted classes for each class in the dataset.
+  #   SUBSET_PATH: /nvidia/datasets/charades/Charades_v1_classes.txt
