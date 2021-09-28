@@ -293,6 +293,9 @@ _C.MODEL.FC_INIT_STD = 0.01
 # Activation layer for the output head.
 _C.MODEL.HEAD_ACT = "softmax"
 
+# Activation checkpointing enabled or not to save GPU memory.
+_C.MODEL.ACT_CHECKPOINT = False
+
 
 # -----------------------------------------------------------------------------
 # MViT options
@@ -942,11 +945,11 @@ def assert_and_infer_cfg(cfg):
         assert cfg.BN.NUM_BATCHES_PRECISE >= 0
     # TRAIN assertions.
     assert cfg.TRAIN.CHECKPOINT_TYPE in ["pytorch", "caffe2"]
-    assert cfg.TRAIN.BATCH_SIZE % cfg.NUM_GPUS == 0
+    assert cfg.NUM_GPUS == 0 or cfg.TRAIN.BATCH_SIZE % cfg.NUM_GPUS == 0
 
     # TEST assertions.
     assert cfg.TEST.CHECKPOINT_TYPE in ["pytorch", "caffe2"]
-    assert cfg.TEST.BATCH_SIZE % cfg.NUM_GPUS == 0
+    assert cfg.NUM_GPUS == 0 or cfg.TEST.BATCH_SIZE % cfg.NUM_GPUS == 0
 
     # RESNET assertions.
     assert cfg.RESNET.NUM_GROUPS > 0
